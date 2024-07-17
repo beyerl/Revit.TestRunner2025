@@ -57,8 +57,30 @@
     <DefineConstants>TRACE;Revit2024</DefineConstants>
     <Optimize>true</Optimize>
   </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug2025|x64'">
+		<DebugSymbols>true</DebugSymbols>
+		<OutputPath>..\bin\</OutputPath>
+		<DefineConstants>TRACE;DEBUG;Revit2025</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2025|x64'">
+		<OutputPath>..\bin\</OutputPath>
+		<DefineConstants>TRACE;Revit2025</DefineConstants>
+		<Optimize>true</Optimize>
+	</PropertyGroup>
   <Choose>
-    <When Condition="$(DefineConstants.Contains('Revit2024'))">
+	  <When Condition="$(DefineConstants.Contains('Revit2025'))">
+		  <ItemGroup>
+			  <Reference Include="RevitAPI, Version=25.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+				  <HintPath>..\Libs\Revit2025\libs\net8.0-windows\RevitAPI.dll</HintPath>
+				  <Private>False</Private>
+			  </Reference>
+			  <Reference Include="RevitAPIUI, Version=25.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+				  <HintPath>..\Libs\Revit2025\libs\net8.0-windows\RevitAPIUI.dll</HintPath>
+				  <Private>False</Private>
+			  </Reference>
+		  </ItemGroup>
+	  </When>
+		<When Condition="$(DefineConstants.Contains('Revit2024'))">
       <ItemGroup>
         <Reference Include="RevitAPI, Version=24.0.0.0, Culture=neutral, processorArchitecture=AMD64">
           <HintPath>..\Libs\Revit2024\lib\net48\RevitAPI.dll</HintPath>
