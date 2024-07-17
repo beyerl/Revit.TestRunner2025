@@ -34,7 +34,7 @@ namespace Revit.TestRunner.Shared
         /// <summary>
         /// Start a explore request.
         /// </summary>
-        public async Task<ExploreResponseDto> ExploreAssemblyAsync( string assemblyPath, string revitVersion, string revitLanguage, CancellationToken cancellationToken )
+        public async Task<ExploreResponseDto> ExploreAssemblyAsync( string assemblyPath, string revitVersion, string revitFolder, string revitLanguage, CancellationToken cancellationToken )
         {
             ExploreResponseDto result = null;
 
@@ -42,7 +42,7 @@ namespace Revit.TestRunner.Shared
                 AssemblyPath = assemblyPath
             };
 
-            var revit = RevitHelper.StartRevit( revitVersion, revitLanguage );
+            var revit = RevitHelper.StartRevit( revitVersion, revitFolder, revitLanguage );
             mNewRevit |= revit.IsNew;
 
             await GetHome( cancellationToken );
@@ -108,13 +108,13 @@ namespace Revit.TestRunner.Shared
         /// <summary>
         /// Start a test run request.
         /// </summary>
-        public async Task StartTestRunAsync( IEnumerable<TestCaseDto> testCases, string revitVersion, string revitLanguage, Action<TestRunState> callback, CancellationToken cancellationToken )
+        public async Task StartTestRunAsync( IEnumerable<TestCaseDto> testCases, string revitVersion, string revitFolder, string revitLanguage, Action<TestRunState> callback, CancellationToken cancellationToken )
         {
             var request = new TestRequestDto {
                 Cases = testCases.ToArray()
             };
 
-            var (processId, isNew) = RevitHelper.StartRevit( revitVersion, revitLanguage );
+            var (processId, isNew) = RevitHelper.StartRevit( revitVersion, revitFolder, revitLanguage );
             mNewRevit |= isNew;
 
             await GetHome( cancellationToken );
