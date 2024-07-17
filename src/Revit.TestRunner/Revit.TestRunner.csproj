@@ -17,6 +17,10 @@
 	<Target Name="PrintConfigurationAndPlatform" BeforeTargets="Build">
 		<Message Text="Configuration and Platform: $(Configuration)|$(Platform)" Importance="high" />
 	</Target>
+	<PropertyGroup>
+		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug2025|x64'">
 		<DebugSymbols>true</DebugSymbols>
 		<OutputPath>..\bin\Addin\</OutputPath>
@@ -31,14 +35,14 @@
 		<UseVSHostingProcess>false</UseVSHostingProcess>
 		<CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug2025|Any CPU'">
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug2025|AnyCPU'">
 		<DebugSymbols>true</DebugSymbols>
 		<OutputPath>..\bin\Addin\</OutputPath>
 		<DefineConstants>TRACE;DEBUG;Revit2025</DefineConstants>
 		<UseVSHostingProcess>false</UseVSHostingProcess>
 		<CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2025|Any CPU'">
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2025|AnyCPU'">
 		<OutputPath>..\bin\Addin\</OutputPath>
 		<DefineConstants>TRACE;Revit2025</DefineConstants>
 		<Optimize>true</Optimize>
@@ -59,14 +63,14 @@
 		<UseVSHostingProcess>false</UseVSHostingProcess>
 		<CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Any CPU'">
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
 		<DebugSymbols>true</DebugSymbols>
 		<OutputPath>..\bin\Addin\</OutputPath>
 		<DefineConstants>TRACE;DEBUG;Revit2025</DefineConstants>
 		<UseVSHostingProcess>false</UseVSHostingProcess>
 		<CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|Any CPU'">
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
 		<OutputPath>..\bin\Addin\</OutputPath>
 		<DefineConstants>TRACE;Revit2025</DefineConstants>
 		<Optimize>true</Optimize>
@@ -117,14 +121,6 @@
     <PackageReference Include="NUnit" Version="4.1.0" />
     <PackageReference Include="NUnit.Engine" Version="3.17.0" />
     <PackageReference Include="System.Reflection.MetadataLoadContext" Version="8.0.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="RevitAPI">
-      <HintPath>..\Libs\Revit2025\libs\net8.0-windows\RevitAPI.dll</HintPath>
-    </Reference>
-    <Reference Include="RevitAPIUI">
-      <HintPath>..\Libs\Revit2025\libs\net8.0-windows\RevitAPIUI.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <Optimize>True</Optimize>
