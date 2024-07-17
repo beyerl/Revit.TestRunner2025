@@ -61,17 +61,26 @@ namespace Revit.TestRunner.Shared
         /// If any Revit already run, no more Revit will be started.
         /// Returns the process id and if it was new started.
         /// </summary>
-        public static (int ProcessId, bool IsNew) StartRevit( string version, string language = "" )
+        public static (int ProcessId, bool IsNew) StartRevit( string version, string revitFolder = "", string language = "" )
         {
             Process process = null;
             bool isNew = false;
 
             var processes = Process.GetProcessesByName( "Revit" );
 
-            if( processes.Length == 0 ) {
-                var programFiles = Environment.GetFolderPath( Environment.SpecialFolder.ProgramFiles );
-                var executablePath = Path.Combine( programFiles, "Autodesk", $"Revit {version}", "Revit.exe" );
-
+            if( processes.Length == 0 )
+            {
+	            string executablePath;
+				if (string.IsNullOrEmpty(revitFolder))
+	            {
+					var programFiles =  Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+					executablePath = Path.Combine(programFiles, "Autodesk", $"Revit {version}", "Revit.exe");
+				}
+				else
+				{
+					executablePath = Path.Combine(revitFolder, "Revit.exe");
+				}
+				
                 var argument = !string.IsNullOrEmpty( language )
                     ? $" /language {language}"
                     : string.Empty;
@@ -85,7 +94,7 @@ namespace Revit.TestRunner.Shared
             }
             else if( processes.Length == 1 ) {
                 process = processes.Single();
-                //Console.WriteLine($"Using Revit ProcessId[{process.Id}]");
+                Console.WriteLine($"Using Revit ProcessId[{process.Id}]");
             }
             else {
                 throw new ApplicationException( "Too many Revit applications already running! Max 1 allowed." );

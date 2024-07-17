@@ -22,10 +22,16 @@ namespace Revit.TestRunner.Console.Commands
         [Option( 'r', "revit", Default = 2020, HelpText = "Start Revit in Version" )]
         public int RevitVersion { get; set; }
 
-        /// <summary>
-        /// Preferred Revit Language.
-        /// </summary>
-        [Option( 'l', "language", Default = "", HelpText = "Start Revit with language" )]
+		/// <summary>
+		/// Preferred Revit Version.
+		/// </summary>
+		[Option('f', "folder", Default = "", HelpText = "Start Revit in Folder")]
+		public string RevitFolder { get; set; }
+
+/// <summary>
+		/// Preferred Revit Language.
+		/// </summary>
+		[Option( 'l', "language", Default = "", HelpText = "Start Revit with language" )]
         public string RevitLanguage { get; set; }
 
         /// <summary>
@@ -65,7 +71,7 @@ namespace Revit.TestRunner.Console.Commands
             if( client == null )
                 client = new TestRunnerClient( ConsoleConstants.ProgramName, ConsoleConstants.ProgramVersion );
 
-            await client.StartTestRunAsync( cases, RevitVersion.ToString(), RevitLanguage, result => {
+            await client.StartTestRunAsync( cases, RevitVersion.ToString(), RevitFolder, RevitLanguage, result => {
                 try {
                     if( result.StateDto != null ) {
                         foreach( var test in result.StateDto.Cases.Where( c => c.State != TestState.Unknown && c.State != TestState.Running ) ) {

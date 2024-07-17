@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Xml;
 using NUnit;
 using NUnit.Engine;
@@ -93,9 +95,6 @@ namespace Revit.TestRunner.Runner
             testPackage.AddSetting( EnginePackageSettings.DomainUsage, domainUsage );
             result = engine.GetRunner( testPackage );
 
-            var agency = engine.Services.GetService<TestAgency>();
-            agency?.StopService();
-
             return result;
         }
 
@@ -110,15 +109,29 @@ namespace Revit.TestRunner.Runner
 
             // Private way to create NUnit TestEngine, using bin directory of TestRunner.
             const string defaultAssemblyName = "nunit.engine.dll";
-            const string defaultTypeName = "NUnit.Engine.TestEngine";
+			const string defaultTypeName = "NUnit.Engine.TestEngine";
             string executionAssemblyPath = Assembly.GetExecutingAssembly().Location;
             var executionAssembly = new FileInfo( executionAssemblyPath );
-            string workingDirectory = Path.Combine( executionAssembly.Directory.FullName, defaultAssemblyName );
+            if (executionAssembly.Directory == null)
+            {
+	            throw new ArgumentNullException($"executionAssembly.Directory is null.");
+            }
+            string defaultAssemblyPath = Path.Combine(executionAssembly.Directory.FullName, defaultAssemblyName);
+            string[] runtimeAssemblies = Directory.GetFiles(RuntimeEnvironment.GetRuntimeDirectory(), "*.dll");
+			var paths = new List<string>(runtimeAssemblies)
+			{
+				defaultAssemblyPath,
+				TestAssembly
+			};
 
-            var engineAssembly = Assembly.ReflectionOnlyLoadFrom( workingDirectory );
-            var engine = (ITestEngine)AppDomain.CurrentDomain.CreateInstanceFromAndUnwrap( engineAssembly.CodeBase, defaultTypeName );
-
-            return engine;
+			var resolver = new PathAssemblyResolver(paths);
+            var mlc = new MetadataLoadContext(resolver);
+            var engineAssembly = mlc.LoadFromAssemblyPath(defaultAssemblyPath);
+			var engine = (ITestEngine)AppDomain.CurrentDomain.CreateInstanceFromAndUnwrap( engineAssembly.Location, defaultTypeName );
+            // Load test assembly to make shure it is part of the AppDomain and can be found bei Assembly.Load-command in NUnitNetStandardDriver later.
+			Assembly.LoadFrom(TestAssembly);
+			
+			return engine;
         }
 
         public void Dispose()

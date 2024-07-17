@@ -21,7 +21,7 @@
 ############################################################################################################
 
 param (
-    [string]$configuration = "Debug2022",
+    [string]$configuration = "Debug2025",
     [string]$projectName = "Revit.TestRunner",
     [string]$addinSourceDir = "",
     [string]$targetPath = ""
@@ -88,7 +88,6 @@ $targetAddinFile = "{0}\{1}" -f $addinVersionPath, $addinFileName
 
 # Copy addin file to target path
 Write-Host "Install addin file "$targetAddinFile
-Delete-I
 Copy-Item $sourceAddinFile -Destination $addinVersionPath -Force
 
 # Manipulate target addin File

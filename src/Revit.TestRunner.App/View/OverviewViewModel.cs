@@ -207,7 +207,7 @@ namespace Revit.TestRunner.App.View
             int callbackCount = 0;
             var duration = TimeSpan.Zero;
 
-            await mClient.StartTestRunAsync( testCases, "2021", "", result => {
+            await mClient.StartTestRunAsync( testCases, "2021", "", "",result => {
                 callbackCount++;
                 duration = result.Duration;
                 ProgramState = "Test Run in progress" + string.Concat( Enumerable.Repeat( ".", callbackCount % 5 ) );
@@ -324,7 +324,7 @@ namespace Revit.TestRunner.App.View
                     mIsLoading = true;
                     Tree.Clear();
 
-                    var response = await mClient.ExploreAssemblyAsync( path, "2021", "", CancellationToken.None );
+                    var response = await mClient.ExploreAssemblyAsync( path, "2021", "", "", CancellationToken.None );
 
                     if( response != null ) {
                         LoadExploreFile( response.ExploreFile );

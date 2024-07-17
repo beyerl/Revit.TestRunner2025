@@ -46,7 +46,7 @@ namespace Revit.TestRunner.Console.Commands
             System.Console.WriteLine( $"Explore assembly '{AssemblyPath}'" );
 
             TestRunnerClient client = new TestRunnerClient( ConsoleConstants.ProgramName, ConsoleConstants.ProgramVersion );
-            var explore = await client.ExploreAssemblyAsync( assemblyPath, RevitVersion.ToString(), RevitLanguage, CancellationToken.None );
+            var explore = await client.ExploreAssemblyAsync( assemblyPath, RevitVersion.ToString(), RevitFolder, RevitLanguage, CancellationToken.None );
 
             if( explore != null ) {
                 System.Console.WriteLine( "Get tests from assembly" );
