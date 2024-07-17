@@ -17,10 +17,10 @@ namespace Revit.TestRunner.Commands
     {
         public Result Execute( ExternalCommandData commandData, ref string message, ElementSet elements )
         {
-            FileInfo file = new FileInfo( Assembly.GetExecutingAssembly().Location );
-            var exe = Path.Combine( file.Directory.FullName, @"..\Client\Revit.TestRunner.App.exe" );
+			FileInfo file = new FileInfo(Assembly.GetExecutingAssembly().Location);
+			var exe = Path.Combine(file.Directory.FullName, @"..\..\Client\Revit.TestRunner.App.exe"); ;
 
-            if( File.Exists( exe ) ) {
+			if ( File.Exists( exe ) ) {
                 Process.Start( exe );
             }
             else {
