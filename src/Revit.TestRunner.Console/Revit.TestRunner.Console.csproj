@@ -4,7 +4,7 @@
     <OutputType>Exe</OutputType>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Platforms>x64;AnyCPU</Platforms>
-    <Configurations>Debug;Release</Configurations>
+    <Configurations>Debug;Release;Debug2025;Release2025</Configurations>
 	  <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">

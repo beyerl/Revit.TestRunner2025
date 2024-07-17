@@ -7,7 +7,7 @@
     <OutputPath>..\bin\Client\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <Platforms>x64;AnyCPU</Platforms>
-    <Configurations>Debug;Release</Configurations>
+    <Configurations>Debug;Release;Debug2025;Release2025</Configurations>
 	  <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
   <PropertyGroup>
