@@ -13,6 +13,7 @@
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
     <Platforms>AnyCPU;x64</Platforms>
 	  <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+	  <Configurations>Debug;Release;Debug2025;Release2025</Configurations>
 	</PropertyGroup>
 	<Target Name="PrintConfigurationAndPlatform" BeforeTargets="Build">
 		<Message Text="Configuration and Platform: $(Configuration)|$(Platform)" Importance="high" />
@@ -56,12 +57,26 @@
 		<UseVSHostingProcess>false</UseVSHostingProcess>
 		<CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
 	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug2025|x64'">
+	  <DebugSymbols>true</DebugSymbols>
+	  <OutputPath>..\bin\Addin\</OutputPath>
+	  <DefineConstants>TRACE;DEBUG;Revit2025</DefineConstants>
+	  <UseVSHostingProcess>false</UseVSHostingProcess>
+	  <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
 		<OutputPath>..\bin\Addin\</OutputPath>
 		<DefineConstants>TRACE;Revit2025</DefineConstants>
 		<Optimize>true</Optimize>
 		<UseVSHostingProcess>false</UseVSHostingProcess>
 		<CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2025|x64'">
+	  <OutputPath>..\bin\Addin\</OutputPath>
+	  <DefineConstants>TRACE;Revit2025</DefineConstants>
+	  <Optimize>true</Optimize>
+	  <UseVSHostingProcess>false</UseVSHostingProcess>
+	  <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
 		<DebugSymbols>true</DebugSymbols>
@@ -70,12 +85,26 @@
 		<UseVSHostingProcess>false</UseVSHostingProcess>
 		<CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
 	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug2025|AnyCPU'">
+	  <DebugSymbols>true</DebugSymbols>
+	  <OutputPath>..\bin\Addin\</OutputPath>
+	  <DefineConstants>TRACE;DEBUG;Revit2025</DefineConstants>
+	  <UseVSHostingProcess>false</UseVSHostingProcess>
+	  <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
 		<OutputPath>..\bin\Addin\</OutputPath>
 		<DefineConstants>TRACE;Revit2025</DefineConstants>
 		<Optimize>true</Optimize>
 		<UseVSHostingProcess>false</UseVSHostingProcess>
 		<CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2025|AnyCPU'">
+	  <OutputPath>..\bin\Addin\</OutputPath>
+	  <DefineConstants>TRACE;Revit2025</DefineConstants>
+	  <Optimize>true</Optimize>
+	  <UseVSHostingProcess>false</UseVSHostingProcess>
+	  <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
 	</PropertyGroup>
   <Choose>
 	  <When Condition="$(DefineConstants.Contains('Revit2025'))">
@@ -128,10 +157,10 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Optimize>True</Optimize>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2025|x64'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2025|AnyCPU'">
-		<Optimize>True</Optimize>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2025|x64'">
 		<Optimize>True</Optimize>
 	</PropertyGroup>
   <PropertyGroup>
@@ -140,13 +169,16 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <Optimize>False</Optimize>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug2025|AnyCPU'">
+    <Optimize>False</Optimize>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Optimize>False</Optimize>
   </PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug2025|AnyCPU'">
-		<Optimize>False</Optimize>
-	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug2025|x64'">
 		<Optimize>False</Optimize>
 	</PropertyGroup>
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	  <Exec Command="&quot;C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe&quot; -file $(ProjectDir)InstallAddinForDebugging.ps1 $(ConfigurationName) $(ProjectName) $(ProjectDir) $(TargetPath)&#xD;&#xA;   :exit" />
+	</Target>
 </Project>
